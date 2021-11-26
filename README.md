@@ -103,31 +103,28 @@ input:
 ```json
 {
     "name": "my-workflow",
-    "spec": {
-        "services": ["service-1", "service-2"],
-        "inputs": {
-            "message": {
-                "type": "string",
-                "description": "The text to process"
-            }
-        },
-        "outputs": {
-            "message": {
-                "type": "string",
-                "description": "The processed text"
-            }
-        },
-        "operations": { }
-    }
+    "services": ["service-1", "service-2"],
+    "inputs": {
+        "message": {
+            "type": "string",
+            "description": "The text to process"
+        }
+    },
+    "outputs": {
+        "message": {
+            "type": "string",
+            "description": "The processed text"
+        }
+    },
+    "operations": { }
 }
 ```
 
 input:
 - `name`: The name of the Workflow
-- `spec`: The spec of the Workflow
-- `spec.services`: The Services to be called, in order
-- `spec.inputs`: The inputs of this Workflow
-- `spec.outputs`: The outputs of this workflow
+- `services`: The Services to be called, in order
+- `inputs`: The inputs of this Workflow
+- `outputs`: The outputs of this workflow
 
 output: TBD
 (workflow-id, ack date)
