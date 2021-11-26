@@ -32,7 +32,7 @@ setup(
     long_description_content_type='text/markdown',
     include_package_data=True,
     keywords='machinery',
-    name='machinery',
+    name='workflow-machinery',
     packages=find_packages(include=['machinery', 'machinery.*']),
     test_suite='tests',
     tests_require=test_requirements,

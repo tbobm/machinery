@@ -1,0 +1,104 @@
+---
+name: "CI"
+
+'on':
+  push:
+    branches:
+      - "main"
+      - "release"
+  pull_request:
+    branches:
+      - "main"
+      - "release"
+  workflow_dispatch:
+
+
+jobs:
+  unittests:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/release'
+    name: "Run tests"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          architecture: x64
+      - name: Install machinery package
+        run: |
+          pip install -r requirements_dev.txt
+          pip install -e .
+      - name: Run the unit tests
+        run: pytest
+
+  linter:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/release'
+    name: "Run pylint"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          architecture: x64
+      - name: Install machinery package
+        run: |
+          pip install -r requirements_dev.txt
+          pip install -e .
+      - name: Run the unit tests
+        run: pylint machinery
+
+  release:
+    if: github.ref == 'refs/heads/release'
+    name: 'Release'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Semantic Release
+        id: release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          branches: |
+            [
+              'release'
+            ]
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+
+      - name: Set up Python
+        if: steps.release.outputs.new_release_published == 'true'
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          architecture: x64
+      - name: Install machinery package
+        if: steps.release.outputs.new_release_published == 'true'
+        run: |
+          pip install -r requirements_dev.txt
+          pip install -e .
+
+      - name: Autobump version
+        if: steps.release.outputs.new_release_published == 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.new_release_version }}
+        run: |
+          # from refs/tags/v1.2.3 get 1.2.3
+          VERSION=$(echo $VERSION | sed 's#.*/v##')
+          PLACEHOLDER='__version__ = "develop"'
+          VERSION_FILE='machinery/__init__.py'
+          # ensure the placeholder is there. If grep doesn't find the placeholder
+          # it exits with exit code 1 and github actions aborts the build.
+          grep "$PLACEHOLDER" "$VERSION_FILE"
+          sed -i "s/$PLACEHOLDER/__version__ = \"${VERSION}\"/g" "$VERSION_FILE"
+
+      - name: Build and publish
+        if: steps.release.outputs.new_release_published == 'true'
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          make release
