@@ -1,0 +1,19 @@
+{
+    "name": "reverse",
+    "address": "http://reverse:5000/",
+    "spec": {
+        "inputs": {
+            "message": {
+                "type": "string",
+                "description": "The text to transform"
+            }
+        },
+        "outputs": {
+            "message": {
+                "type": "string",
+                "description": "The transformed text, in reverse"
+            }
+        }
+    }
+}
+
