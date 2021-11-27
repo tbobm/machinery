@@ -90,20 +90,22 @@ _Could be divided into Consumer API and Management API._
 
 ```json
 {
-    "name": "my-service-name",
-    "address": "http://my-service.local:5000/",
-    "inputs": {
-        "message": {
+    "name": "upper",
+    "address": "http://upper.local:5000/",
+    "inputs": [
+         {
+            "name": "message",
             "type": "string",
             "description": "The text to transform"
         }
-    },
-    "outputs": {
-        "message": {
+    ],
+    "outputs": [
+         {
+            "name": "message",
             "type": "string",
-            "description": "The transformed text"
+            "description": "The transformed text, in uppercase"
         }
-    }
+    ]
 }
 ```
 
@@ -137,21 +139,28 @@ input:
 
 ```json
 {
-    "name": "my-workflow",
-    "services": ["service-1", "service-2"],
-    "inputs": {
-        "message": {
+    "name": "process-text",
+    "services": ["upper", "reverse", "space-counter"],
+    "inputs": [
+         {
+            "name": "message",
             "type": "string",
             "description": "The text to process"
         }
-    },
-    "outputs": {
-        "message": {
+    ],
+    "outputs": [
+         {
+            "name": "message",
             "type": "string",
             "description": "The processed text"
+        },
+         {
+            "name": "space_count",
+            "type": "int",
+            "description": "The number of spaces"
         }
-    },
-    "operations": { }
+    ],
+    "operations": [ ]
 }
 ```
 
