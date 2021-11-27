@@ -18,6 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/release'
     name: "Run tests"
+    services:
+      mongodb:
+        image: "mongo:4.4"
+        ports:
+          - 27017:27017
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -26,6 +31,8 @@ jobs:
           python-version: 3.9
           architecture: x64
       - name: Install machinery package
+        env:
+          MONGODB_URL: "mongodb://user:password@localhost/machinery?authSource=admin"
         run: |
           pip install -r requirements_dev.txt
           pip install -e .
