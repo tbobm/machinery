@@ -39,26 +39,7 @@ def test_service_schema():
     assert "outputs" in result.keys() and len(result["outputs"]) == 1
 
 
-def test_workflow_schema():
-    payload = {
-        "name": "my-workflow",
-        "services": ["service-1", "service-2"],
-        "inputs": [
-             {
-                "name":"message",
-                "type": "string",
-                "description": "The text to process"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "message",
-                "type": "string",
-                "description": "The processed text"
-            }
-        ],
-        "operations": { }
-    }
+def test_workflow_schema(valid_workflow):
     workflow_schema = entity.WorkflowSchema()
-    result = workflow_schema.load(payload)
+    result = workflow_schema.load(valid_workflow)
     assert "inputs" in result.keys() and len(result["inputs"]) == 1
