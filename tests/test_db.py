@@ -1,4 +1,6 @@
 """Storage-related unittests."""
+import pytest
+
 from bson.objectid import ObjectId
 from machinery import db
 
@@ -47,8 +49,14 @@ def test_insert_service_failed(bad_generic_payload, db_client):
 
 def test_service_lookup(valid_service, db_client):
     """Ensure service lookup returns True if services are found."""
-    created, data = db.store_service(valid_service, db_client)
+    created, _ = db.store_service(valid_service, db_client)
     assert created is True
 
     found = db.services_exists([valid_service["name"]], db_client)
     assert found is True
+
+
+def test_qualifier_restricted(valid_service, db_client):
+    """Ensure exception is triggered on unknown qualifier."""
+    with pytest.raises(ValueError):
+        db.services_exists([valid_service["name"]], db_client, qualifier='unknown')
