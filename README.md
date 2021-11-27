@@ -36,6 +36,42 @@ We will send the content of [`examples/definitions/event-text.json`](./examples/
 - Allow async (expose endpoint for webhook?)
 - Visualisation
 
+## Development
+
+The recommended approach is to use `virtualenv` to install the API's dependencies.
+
+```console
+$ pip install virtualenv
+$ python -m virtualenv venv
+$ source venv/bin/activate
+$ pip install -r requirements_dev.txt
+$ pip install -e .
+```
+
+In order to ease iterations, some helpers scripts are available.
+
+**start the database**
+
+Starts a background MongoDB container in host networking mode.
+
+```console
+$ ./run-background-service.sh
+```
+
+**run the api in development mode**
+
+Start the Flask Application in development + debug mode.
+
+```console
+$ ./run_app 
+ * Serving Flask app 'machinery.api:create_app' (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+```
+
+
 ## Components
 
 ### API (WIP)
