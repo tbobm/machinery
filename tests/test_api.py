@@ -16,3 +16,8 @@ def test_create_workflow(client, valid_workflow):
 
     assert "workflow_id" in rv.get_json()
     assert rv.status_code == 201
+
+def test_create_workflow_fail(client, bad_generic_payload):
+    rv = client.post('/w', json=bad_generic_payload)
+
+    assert rv.status_code == 409
