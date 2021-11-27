@@ -87,6 +87,58 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
+					"raw": "{\n    \"name\": \"process-text\",\n    \"services\": [\"upper\"],\n    \"inputs\": [\n         {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to process\"\n        }\n    ],\n    \"outputs\": [\n         {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The processed text\"\n        },\n         {\n            \"name\": \"space_count\",\n            \"type\": \"int\",\n            \"description\": \"The number of spaces\"\n        }\n    ],\n    \"operations\": [ ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{APP_URL}}/w",
+					"protocol": "http",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"w"
+					]
+				},
+				"description": "Create a valid Workflow using the registered Service (`upper`)"
+			},
+			"response": []
+		},
+		{
+			"name": "Do not create Workflow if test not exist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							"",
+							"var serviceResponse = {",
+							"    \"message\": {",
+							"        \"type\": \"string\"",
+							"    }",
+							"};",
+							"",
+							"",
+							"pm.test('Response contains a workflow_id', function () {",
+							"    pm.expect(tv4.validate(pm.response.json(), serviceResponse)).to.be.true",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
 					"raw": "{\n    \"name\": \"process-text\",\n    \"services\": [\"upper\", \"reverse\", \"space-counter\"],\n    \"inputs\": [\n         {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to process\"\n        }\n    ],\n    \"outputs\": [\n         {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The processed text\"\n        },\n         {\n            \"name\": \"space_count\",\n            \"type\": \"int\",\n            \"description\": \"The number of spaces\"\n        }\n    ],\n    \"operations\": [ ]\n}\n",
 					"options": {
 						"raw": {
@@ -103,7 +155,8 @@
 					"path": [
 						"w"
 					]
-				}
+				},
+				"description": "Upon creating a Workflow, every referenced Service must be registered beforehand."
 			},
 			"response": []
 		}
