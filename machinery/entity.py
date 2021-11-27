@@ -4,22 +4,22 @@ from marshmallow import Schema, fields, EXCLUDE
 
 class DataSchema(Schema):
     """Define Inputs and Outputs."""
-    type = fields.Str()
+    type = fields.Str(required=True)
     description = fields.Str()
-    name = fields.Str()
+    name = fields.Str(required=True)
 
 class ServiceSchema(Schema):
     """Define a Service Entity."""
-    name = fields.Str()
-    address = fields.Url()
+    name = fields.Str(required=True)
+    address = fields.Url(required=True)
     created_at = fields.DateTime(dump_only=True, missing=datetime.datetime.utcnow())
     inputs = fields.List(fields.Nested(DataSchema))
     outputs = fields.List(fields.Nested(DataSchema))
 
 class WorkflowSchema(Schema):
     """Define a Workflow Entity."""
-    name = fields.Str()
-    services = fields.List(fields.Str())
+    name = fields.Str(required=True)
+    services = fields.List(fields.Str(), required=True)
     created_at = fields.DateTime(dump_only=True, missing=datetime.datetime.utcnow())
     inputs = fields.List(fields.Nested(DataSchema))
     outputs = fields.List(fields.Nested(DataSchema))
