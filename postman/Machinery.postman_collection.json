@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "d7a558c6-7f75-4279-9943-530026db2dfa",
+		"name": "Machinery",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a Service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var serviceResponse = {",
+							"    \"service_id\": {",
+							"        \"type\": \"string\"",
+							"    }",
+							"};",
+							"",
+							"",
+							"pm.test('Response contains a service_id', function () {",
+							"    pm.expect(tv4.validate(pm.response.json(), serviceResponse)).to.be.true",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"upper\",\n    \"address\": \"http://upper.local:5000/\",\n    \"inputs\": [\n        {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to transform\"\n        }\n        ],\n        \"outputs\": [\n        {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to transform\"\n       }\n    ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{APP_URL}}/s",
+					"protocol": "http",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"s"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
