@@ -73,6 +73,85 @@ $ ./run_app
    WARNING: This is a development server. Do not use it in a production deployment.
 ```
 
+## Testing
+
+Every testing-related dependency is listed in the `requirements_dev.txt` file.
+
+```console
+$ pip install -r requirements_dev.txt
+```
+
+### Unit tests
+
+This project implements unittests using `pytest`.
+
+In a configured environment, run the following command:
+```console
+$ pytest
+```
+
+### Linting
+
+This project is linted using `pylint`
+
+In a configured environment, run the following command:
+```console
+$ pylint machinery
+```
+
+### Functional tests (WIP)
+
+This API is tested using Postman/Newman. ([newman: Getting Started][newman])
+
+Assets are available in the `./postman` directory and expect the API to be accessible at `http://localhost:5000`.
+This can be achieved using the `./run_app` script.
+
+**Example:**
+```console
+$ npm install newman
+$ ./node_modules/newman/bin/newman.js run ./postman/Machinery.postman_collection.json -e postman/Machinery\ -\ Local.postman_env.json 
+newman
+
+Machinery
+
+→ Create a Service
+  POST http://localhost:5000/s [201 CREATED, 197B, 38ms]
+  ✓  Status code is 201
+  ✓  Response contains a service_id
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │                2 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 70ms                                      │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 47B (approx)                             │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 38ms [min: 38ms, max: 38ms, s.d.: 0µs] │
+└───────────────────────────────────────────────────────────────┘
+```
+
+[newman]: https://learning.postman.com/docs/running-collections/using-newman-cli/command-line-integration-with-newman/
+
+#### A Note on functional tests
+
+As this Python project is to be considered to be a POC to define the required
+feature set for the "production-grade" version of Machinery, this testing part
+is the most important than any other tests.
+
+The next version _probably_ will not be written in Python and this contract
+will allow to quickly develop a stable version.
+
+Being able to define a usable API is the current goal for Machinery.
 
 ## Components
 
