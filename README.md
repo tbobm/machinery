@@ -1,5 +1,7 @@
 # machinery
 
+[![CI](https://github.com/tbobm/machinery/actions/workflows/ci.yml/badge.svg)](https://github.com/tbobm/machinery/actions/workflows/ci.yml)
+
 State-aware workflow orchestrator.
 
 This project aims to bring stateful workflows, by defining a list of actions
