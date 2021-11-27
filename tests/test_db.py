@@ -20,6 +20,14 @@ def test_insert_workflow_failed(bad_generic_payload, db_client):
     assert "services" in data
 
 
+def test_insert_workflow_failed_no_service(valid_workflow, db_client):
+    """Ensure a Valid Workflow can not be inserted if the Services are not registered."""
+    valid_workflow['services'] = ["IDONOTEXIST"]
+    created, data = db.store_workflow(valid_workflow, db_client)
+    assert created is False
+    assert "message" in data
+    assert "not all services exist" == data['message']
+
 def test_insert_service(valid_service, db_client):
     """Ensure a Valid Service can be inserted in the proper Collection."""
     created, data = db.store_service(valid_service, db_client)

@@ -32,7 +32,7 @@ def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.T
     all_services_exist = services_exists(result["services"], mongo_client)
     if not all_services_exist:
         # TODO: give more detail regarding the failing services
-        return False, {"message": "not all services exists"}
+        return False, {"message": "not all services exist"}
     cursor = mongo_client.get_default_database()
     inserted = cursor[MachineryCollections.WORKFLOW.value].insert_one(result)
     return inserted.acknowledged, {'workflow_id': f"{inserted.inserted_id}"}
