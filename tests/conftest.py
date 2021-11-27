@@ -30,8 +30,31 @@ def valid_workflow():
 
 
 @pytest.fixture
-def bad_workflow():
-    """Return an Invalid Workflow."""
+def valid_service():
+    """Simple valid Service JSON."""
+    return {
+        "name": "some-service",
+        "address": "http://some-service.com:5000/",
+        "inputs": [
+            {
+                "name": "message",
+                "type": "string",
+                "description": "short"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "message",
+                "type": "string",
+                "description": "short"
+            }
+        ]
+    }
+
+
+@pytest.fixture
+def bad_generic_payload():
+    """Return an Invalid Payload."""
     return {
         "name": "invalid",
         "ok": False

@@ -14,27 +14,9 @@ def test_data_schema():
     assert "description" in result.keys()
 
 
-def test_service_schema():
-    payload = {
-        "name": "message",
-        "address": "http://some-service.com:5000/",
-        "inputs": [
-            {
-                "name": "message",
-                "type": "string",
-                "description": "short"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "message",
-                "type": "string",
-                "description": "short"
-            }
-        ]
-    }
+def test_service_schema(valid_service):
     service_schema = entity.ServiceSchema()
-    result = service_schema.load(payload)
+    result = service_schema.load(valid_service)
     assert "inputs" in result.keys() and len(result["inputs"]) == 1
     assert "outputs" in result.keys() and len(result["outputs"]) == 1
 

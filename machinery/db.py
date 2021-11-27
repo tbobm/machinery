@@ -5,7 +5,7 @@ import typing
 from marshmallow import ValidationError
 import pymongo
 
-from machinery.entity import WorkflowSchema
+from machinery.entity import WorkflowSchema, ServiceSchema
 
 
 class MachineryCollections(enum.Enum):
@@ -28,3 +28,19 @@ def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.T
     cursor = mongo_client.get_default_database()
     inserted = cursor[MachineryCollections.WORKFLOW.value].insert_one(result)
     return inserted.acknowledged, {'workflow_id': inserted.inserted_id}
+
+
+def store_service(payload: dict, mongo_client: pymongo.MongoClient) -> typing.Tuple[bool, dict]:
+    """Validate and store a valid Service `payload`.
+
+    First return parameter defined if the Service has been registered.
+    Second return parameter is an informative dictionary.
+    """
+    schema = ServiceSchema()
+    try:
+        result = schema.load(payload)
+    except ValidationError as err:
+        return False, err.messages
+    cursor = mongo_client.get_default_database()
+    inserted = cursor[MachineryCollections.SERVICE.value].insert_one(result)
+    return inserted.acknowledged, {'service_id': inserted.inserted_id}
