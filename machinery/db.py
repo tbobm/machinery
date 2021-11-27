@@ -8,6 +8,9 @@ import pymongo
 from machinery.entity import WorkflowSchema, ServiceSchema
 
 
+DEFAULT_MONGO_URI = "mongodb://user:password@localhost:27017/machinery?authSource=admin"
+
+
 class MachineryCollections(enum.Enum):
     """MongoDB Collections for the stored configurations."""
     WORKFLOW = 'machinery_workflows'
@@ -27,7 +30,7 @@ def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.T
         return False, err.messages
     cursor = mongo_client.get_default_database()
     inserted = cursor[MachineryCollections.WORKFLOW.value].insert_one(result)
-    return inserted.acknowledged, {'workflow_id': inserted.inserted_id}
+    return inserted.acknowledged, {'workflow_id': f"{inserted.inserted_id}"}
 
 
 def store_service(payload: dict, mongo_client: pymongo.MongoClient) -> typing.Tuple[bool, dict]:
@@ -43,4 +46,4 @@ def store_service(payload: dict, mongo_client: pymongo.MongoClient) -> typing.Tu
         return False, err.messages
     cursor = mongo_client.get_default_database()
     inserted = cursor[MachineryCollections.SERVICE.value].insert_one(result)
-    return inserted.acknowledged, {'service_id': inserted.inserted_id}
+    return inserted.acknowledged, {'service_id': f"{inserted.inserted_id}"}

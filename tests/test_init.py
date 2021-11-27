@@ -1,4 +1,4 @@
 import machinery.api
 
 def test_app():
-    assert machinery.api.app is not None
+    assert machinery.api.create_app() is not None

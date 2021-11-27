@@ -35,12 +35,12 @@ jobs:
           python-version: 3.9
           architecture: x64
       - name: Install machinery package
-        env:
-          MONGODB_URL: "mongodb://user:password@localhost/machinery?authSource=admin"
         run: |
           pip install -r requirements_dev.txt
           pip install -e .
       - name: Run the unit tests
+        env:
+          MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
         run: pytest
 
   linter:

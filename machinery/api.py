@@ -2,18 +2,35 @@
 import os
 
 import flask
+from flask_pymongo import PyMongo
 
-app = flask.Flask(__name__)
+from machinery.db import DEFAULT_MONGO_URI
+from machinery.blueprints import common
 
 
-@app.route('/healthcheck')
-def healthcheck():
-    """Simply return OK."""
-    return 204
+def create_app():
+    """Return a configured flask.Flask instance.
+
+    Adds the `PyMongo` instance to the `config['db']` attribute.
+    """
+    app = flask.Flask(__name__)
+    app.config["MONGO_URI"] = os.environ.get('MONGO_URI', DEFAULT_MONGO_URI)
+    mongo = PyMongo(app)
+    app.config['db'] = mongo
+
+    app.register_blueprint(common)
+
+    @app.route('/healthcheck')
+    def healthcheck():
+        """Simply return OK."""
+        return {}, 204
+
+    return app
 
 
 def main():
     """Start the Flask application."""
+    app = create_app()
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', "5000")))
 
 
