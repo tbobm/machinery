@@ -12,7 +12,7 @@ class ServiceSchema(Schema):
     """Define a Service Entity."""
     name = fields.Str(required=True)
     address = fields.Url(required=True)
-    created_at = fields.DateTime(dump_only=True, missing=datetime.datetime.utcnow())
+    created_at = fields.DateTime(dump_only=True, load_default=datetime.datetime.utcnow)
     inputs = fields.List(fields.Nested(DataSchema))
     outputs = fields.List(fields.Nested(DataSchema))
 
@@ -20,7 +20,7 @@ class WorkflowSchema(Schema):
     """Define a Workflow Entity."""
     name = fields.Str(required=True)
     services = fields.List(fields.Str(), required=True)
-    created_at = fields.DateTime(dump_only=True, missing=datetime.datetime.utcnow())
+    created_at = fields.DateTime(dump_only=True, load_default=datetime.datetime.utcnow)
     inputs = fields.List(fields.Nested(DataSchema))
     outputs = fields.List(fields.Nested(DataSchema))
 
