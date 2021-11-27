@@ -11,11 +11,11 @@ common = Blueprint('api', __name__)
 def register_service():
     """Validate the JSON payload and store the Service in the Database."""
     if not request.is_json:
-        return {"message": "json is expected"}, 409
+        return {"message": "json is expected"}, 415
 
     payload = request.get_json()
     if payload is None:
-        return {"message": "payload can not be empty"}, 409
+        return {"message": "payload can not be empty"}, 400
 
     mongo = current_app.config['db']
     created, infos = store_service(payload, mongo.cx)
