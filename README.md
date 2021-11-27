@@ -53,19 +53,17 @@ _Could be divided into Consumer API and Management API._
 ```json
 {
     "name": "my-service-name",
-    "address": "http://my-service:5000/",
-    "spec": {
-        "inputs": {
-            "message": {
-                "type": "string",
-                "description": "The text to transform"
-            }
-        },
-        "outputs": {
-            "message": {
-                "type": "string",
-                "description": "The transformed text"
-            }
+    "address": "http://my-service.local:5000/",
+    "inputs": {
+        "message": {
+            "type": "string",
+            "description": "The text to transform"
+        }
+    },
+    "outputs": {
+        "message": {
+            "type": "string",
+            "description": "The transformed text"
         }
     }
 }
@@ -75,9 +73,8 @@ _Could be divided into Consumer API and Management API._
 input:
 - `name`: The name of the Service
 - `address`: The URL of the Service
-- `spec`: The inputs/outputs of this Service
-- `spec.inputs`: Each input with its type and description
-- `spec.outputs`: Each output with its type and description
+- `inputs`: Each input with its type and description
+- `outputs`: Each output with its type and description
 
 output: TBD
 (service-id, ack date)

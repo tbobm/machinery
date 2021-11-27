@@ -1,19 +1,16 @@
 {
     "name": "space-counter",
-    "address": "http://space-counter:5000/",
-    "spec": {
-        "inputs": {
-            "message": {
-                "type": "string",
-                "description": "The text to analyze"
-            }
-        },
-        "outputs": {
-            "space_count": {
-                "type": "int",
-                "description": "The number of spaces in the text"
-            }
+    "address": "http://space-counter.local:5000/",
+    "inputs": {
+        "message": {
+            "type": "string",
+            "description": "The text to analyze"
+        }
+    },
+    "outputs": {
+        "space_count": {
+            "type": "int",
+            "description": "The number of spaces in the text"
         }
     }
 }
-

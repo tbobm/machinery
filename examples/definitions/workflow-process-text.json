@@ -1,24 +1,21 @@
 {
     "name": "process-text",
-    "spec": {
-        "services": ["upper", "reverse", "space-counter"],
-        "inputs": {
-            "message": {
-                "type": "string",
-                "description": "The text to process"
-            }
+    "services": ["upper", "reverse", "space-counter"],
+    "inputs": {
+        "message": {
+            "type": "string",
+            "description": "The text to process"
+        }
+    },
+    "outputs": {
+        "message": {
+            "type": "string",
+            "description": "The processed text"
         },
-        "outputs": {
-            "message": {
-                "type": "string",
-                "description": "The processed text"
-            },
-            "space_count": {
-                "type": "int",
-                "description": "The number of spaces"
-            }
-        },
-        "operations": { }
-    }
+        "space_count": {
+            "type": "int",
+            "description": "The number of spaces"
+        }
+    },
+    "operations": { }
 }
-

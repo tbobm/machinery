@@ -1,19 +1,16 @@
 {
     "name": "upper",
-    "address": "http://upper:5000/",
-    "spec": {
-        "inputs": {
-            "message": {
-                "type": "string",
-                "description": "The text to transform"
-            }
-        },
-        "outputs": {
-            "message": {
-                "type": "string",
-                "description": "The transformed text, in uppercase"
-            }
+    "address": "http://upper.local:5000/",
+    "inputs": {
+        "message": {
+            "type": "string",
+            "description": "The text to transform"
+        }
+    },
+    "outputs": {
+        "message": {
+            "type": "string",
+            "description": "The transformed text, in uppercase"
         }
     }
 }
-

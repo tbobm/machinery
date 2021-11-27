@@ -3,6 +3,15 @@ import os
 
 import pymongo
 import pytest
+from machinery.api import create_app
+
+
+@pytest.fixture
+def client():
+    app = create_app()
+
+    with app.test_client() as client:
+        yield client
 
 
 @pytest.fixture
@@ -65,6 +74,6 @@ def db_client():
     """Return a valid MongoDB Client."""
     # TODO: mock the mongodb instance
     default_db_url = "mongodb://user:password@localhost:27017/machinery?authSource=admin"
-    db_url = os.environ.get('MONGODB_URL', default_db_url)
+    db_url = os.environ.get('MONGO_URI', default_db_url)
     client = pymongo.MongoClient(db_url)
     return client
