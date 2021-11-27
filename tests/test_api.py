@@ -21,3 +21,9 @@ def test_create_workflow_fail(client, bad_generic_payload):
     rv = client.post('/w', json=bad_generic_payload)
 
     assert rv.status_code == 409
+
+def test_create_workflow_fail_service_no_exist(client, valid_workflow):
+    valid_workflow['services'] = "IDONOTEXIST"
+    rv = client.post('/w', json=valid_workflow)
+
+    assert rv.status_code == 409

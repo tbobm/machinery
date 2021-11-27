@@ -19,7 +19,7 @@ def valid_workflow():
     """Simple valid Workflow JSON."""
     return {
         "name": "my-workflow",
-        "services": ["service-1", "service-2"],
+        "services": ["some-service", "some-service"],
         "inputs": [
              {
                 "name":"message",
