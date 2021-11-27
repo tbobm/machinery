@@ -1,16 +1,18 @@
 {
     "name": "upper",
     "address": "http://upper.local:5000/",
-    "inputs": {
-        "message": {
+    "inputs": [
+         {
+            "name": "message",
             "type": "string",
             "description": "The text to transform"
         }
-    },
-    "outputs": {
-        "message": {
+    ],
+    "outputs": [
+         {
+            "name": "message",
             "type": "string",
             "description": "The transformed text, in uppercase"
         }
-    }
+    ]
 }

@@ -1,21 +1,24 @@
 {
     "name": "process-text",
     "services": ["upper", "reverse", "space-counter"],
-    "inputs": {
-        "message": {
+    "inputs": [
+         {
+            "name": "message",
             "type": "string",
             "description": "The text to process"
         }
-    },
-    "outputs": {
-        "message": {
+    ],
+    "outputs": [
+         {
+            "name": "message",
             "type": "string",
             "description": "The processed text"
         },
-        "space_count": {
+         {
+            "name": "space_count",
             "type": "int",
             "description": "The number of spaces"
         }
-    },
-    "operations": { }
+    ],
+    "operations": [ ]
 }
