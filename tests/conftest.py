@@ -29,6 +29,14 @@ def valid_workflow():
     }
 
 
+@pytest.fixture
+def bad_workflow():
+    """Return an Invalid Workflow."""
+    return {
+        "name": "invalid",
+        "ok": False
+    }
+
 @pytest.fixture(scope="session")
 def db_client():
     """Return a valid MongoDB Client."""
