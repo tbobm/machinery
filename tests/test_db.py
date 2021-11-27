@@ -31,7 +31,16 @@ def test_insert_service(valid_service, db_client):
 
 
 def test_insert_service_failed(bad_generic_payload, db_client):
-    """Ensure a Valid Service can be inserted in the proper Collection."""
+    """Ensure an Invalid Service can not be inserted in a Collection."""
     created, data = db.store_service(bad_generic_payload, db_client)
     assert created is False
     assert "address" in data
+
+
+def test_service_lookup(valid_service, db_client):
+    """Ensure service lookup returns True if services are found."""
+    created, data = db.store_service(valid_service, db_client)
+    assert created is True
+
+    found = db.services_exists([valid_service["name"]], db_client)
+    assert found is True
