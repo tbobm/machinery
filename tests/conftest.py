@@ -5,6 +5,8 @@ import pymongo
 import pytest
 from machinery.api import create_app
 from examples.services.upper import create_upper
+from examples.services.reverse import create_reverse
+from examples.services.space_counter import create_space_counter
 
 
 @pytest.fixture
@@ -86,10 +88,25 @@ def upper_client():
     with upper.test_client() as upper_client:
         yield upper_client
 
+@pytest.fixture
+def reverse_client():
+    reverse = create_reverse()
+    with reverse.test_client() as reverse_client:
+        yield reverse_client
 
 @pytest.fixture
-def valid_upper():
-    """Return a valid string to transform"""
+def space_counter_client():
+    space_counter = create_space_counter()
+    with space_counter.test_client() as space_counter_client:
+        yield space_counter_client
+
+@pytest.fixture
+def valid_service_payload():
+    """
+    Payload definition for testing services.
+    :return: a valid payload for example services
+    :rtype: dict
+    """
     return {
         "message": "The Sun will raise again!"
     }
