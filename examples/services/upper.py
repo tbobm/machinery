@@ -6,13 +6,12 @@ import flask
 
 def get_upper_informations():
     """
-    Get all upper service informations on {a distant server / 
-    locally} and return them formated into a dict.
+    Get all upper service informations and return them 
+    formated into a dict.
     :return: all informations about the upper service.
     :rtype: dict
     """
-    # TODO: replace mock with appropriate methods later
-    mock = {
+    informations = {
         "name": "upper",
         "address": "http://upper.local:5000/",
         "inputs": [
@@ -30,7 +29,7 @@ def get_upper_informations():
             }
         ]
     }
-    return mock
+    return informations
 
 
 def create_upper():
@@ -106,7 +105,7 @@ def create_upper():
 def main():
     """Start the Flask application."""
     upper = create_upper()
-    upper.run(host='0.0.0.0', port=int(os.environ.get('UPPER_PORT', "5001")))
+    upper.run(host='0.0.0.0', port=int(os.environ.get('UPPER_PORT', "5000")))
 
 
 if __name__ == "__main__":
