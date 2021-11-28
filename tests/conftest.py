@@ -4,6 +4,7 @@ import os
 import pymongo
 import pytest
 from machinery.api import create_app
+from examples.services.upper import create_upper
 
 
 @pytest.fixture
@@ -77,3 +78,18 @@ def db_client():
     db_url = os.environ.get('MONGO_URI', default_db_url)
     client = pymongo.MongoClient(db_url)
     return client
+
+
+@pytest.fixture
+def upper_client():
+    upper = create_upper()
+    with upper.test_client() as upper_client:
+        yield upper_client
+
+
+@pytest.fixture
+def valid_upper():
+    """Return a valid string to transform"""
+    return {
+        "message": "The Sun will raise again!"
+    }
