@@ -13,11 +13,11 @@ def test_space_counter_infos(space_counter_client):
     assert rv.status_code == 200
     assert "name" in rv.get_json()
 
-def test_space_counter_event(space_counter_client, valid_space_counter):
+def test_space_counter_event(space_counter_client, valid_service_payload):
     """
     Check `/event` status code & type
     """
-    rv = space_counter_client.post('/event', json=valid_space_counter)
+    rv = space_counter_client.post('/event', json=valid_service_payload)
     assert rv.status_code == 200
     assert "message" in rv.get_json()
 

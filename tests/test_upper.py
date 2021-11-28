@@ -13,11 +13,11 @@ def test_upper_infos(upper_client):
     assert rv.status_code == 200
     assert "name" in rv.get_json()
 
-def test_upper_event(upper_client, valid_upper):
+def test_upper_event(upper_client, valid_service_payload):
     """
     Check `/event` status code & type
     """
-    rv = upper_client.post('/event', json=valid_upper)
+    rv = upper_client.post('/event', json=valid_service_payload)
     assert rv.status_code == 200
     assert "message" in rv.get_json()
 

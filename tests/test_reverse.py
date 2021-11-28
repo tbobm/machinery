@@ -13,11 +13,11 @@ def test_reverse_infos(reverse_client):
     assert rv.status_code == 200
     assert "name" in rv.get_json()
 
-def test_reverse_event(reverse_client, valid_reverse):
+def test_reverse_event(reverse_client, valid_service_payload):
     """
     Check `/event` status code & type
     """
-    rv = reverse_client.post('/event', json=valid_reverse)
+    rv = reverse_client.post('/event', json=valid_service_payload)
     assert rv.status_code == 200
     assert "message" in rv.get_json()
 
