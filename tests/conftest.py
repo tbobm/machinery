@@ -83,8 +83,8 @@ def db_client():
 @pytest.fixture
 def upper_client():
     upper = create_upper()
-    with upper.test_client() as client:
-        yield client
+    with upper.test_client() as upper_client:
+        yield upper_client
 
 
 @pytest.fixture
