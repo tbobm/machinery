@@ -4,7 +4,7 @@ import os
 import flask
 
 
-def get_space_counter_informations():
+def get_informations():
     """
     Get all space-counter service informations and return 
     them formated into a dict.
@@ -32,15 +32,15 @@ def get_space_counter_informations():
     return informations
 
 
-def create_space_counter():
+def create_app():
     """
     Configure a Flask instance for space-counter service.
     :return: a configured flask instance.
     :rtype: flask.Flask()
     """
-    space_counter = flask.Flask(__name__)
+    app = flask.Flask(__name__)
 
-    @space_counter.route('/healthcheck')
+    @app.route('/healthcheck')
     def healthcheck():
         """
         Dumb route to check if the server is running.
@@ -49,7 +49,7 @@ def create_space_counter():
         """
         return flask.Response(status=204)
 
-    @space_counter.route('/infos')
+    @app.route('/infos')
     def infos():
         """
         Get informations about the space_counter service, like
@@ -57,12 +57,12 @@ def create_space_counter():
         :return: "200 OK" with informations.
         :rtype: flask.Response
         """
-        infos = get_space_counter_informations()
+        infos = get_informations()
         res = flask.make_response(infos)
         res.status = 200
         return res
 
-    @space_counter.route('/event', methods=['POST'])
+    @app.route('/event', methods=['POST'])
     def event():
         """
         Count the number of spaces into a given message.
@@ -95,17 +95,17 @@ def create_space_counter():
             res.status = 400
             return res
 
-        res = flask.make_response({'message': message.count(" ")})
+        res = flask.make_response({'space_count': message.count(" ")})
         res.status = 200
         return res
 
-    return space_counter
+    return app
 
 
 def main():
     """Start the Flask application."""
-    space_counter = create_space_counter()
-    space_counter.run(host='0.0.0.0', port=int(os.environ.get('SPACE_PORT', "5000")))
+    app = create_app()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', "5000")))
 
 
 if __name__ == "__main__":

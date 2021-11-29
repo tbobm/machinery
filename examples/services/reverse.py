@@ -4,7 +4,7 @@ import os
 import flask
 
 
-def get_reverse_informations():
+def get_informations():
     """
     Get all reverse service informations and return 
     them formated into a dict.
@@ -32,15 +32,15 @@ def get_reverse_informations():
     return informations
 
 
-def create_reverse():
+def create_app():
     """
     Configure a Flask instance for reverse service.
     :return: a configured flask instance.
     :rtype: flask.Flask()
     """
-    reverse = flask.Flask(__name__)
+    app = flask.Flask(__name__)
 
-    @reverse.route('/healthcheck')
+    @app.route('/healthcheck')
     def healthcheck():
         """
         Dumb route to check if the server is running.
@@ -49,7 +49,7 @@ def create_reverse():
         """
         return flask.Response(status=204)
 
-    @reverse.route('/infos')
+    @app.route('/infos')
     def infos():
         """
         Get informations about the reverse service, like
@@ -57,12 +57,12 @@ def create_reverse():
         :return: "200 OK" with informations.
         :rtype: flask.Response
         """
-        infos = get_reverse_informations()
+        infos = get_informations()
         res = flask.make_response(infos)
         res.status = 200
         return res
 
-    @reverse.route('/event', methods=['POST'])
+    @app.route('/event', methods=['POST'])
     def event():
         """
         Reverse the given message.
@@ -99,13 +99,13 @@ def create_reverse():
         res.status = 200
         return res
 
-    return reverse
+    return app
 
 
 def main():
     """Start the Flask application."""
-    reverse = create_reverse()
-    reverse.run(host='0.0.0.0', port=int(os.environ.get('REVERSE_PORT', "5000")))
+    app = create_app()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', "5000")))
 
 
 if __name__ == "__main__":

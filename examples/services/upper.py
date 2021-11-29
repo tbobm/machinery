@@ -4,7 +4,7 @@ import os
 import flask
 
 
-def get_upper_informations():
+def get_informations():
     """
     Get all upper service informations and return them 
     formated into a dict.
@@ -32,15 +32,15 @@ def get_upper_informations():
     return informations
 
 
-def create_upper():
+def create_app():
     """
     Configure a Flask instance for upper service.
     :return: a configured flask instance.
     :rtype: flask.Flask()
     """
-    upper = flask.Flask(__name__)
+    app = flask.Flask(__name__)
 
-    @upper.route('/healthcheck')
+    @app.route('/healthcheck')
     def healthcheck():
         """
         Dumb route to check if the server is running.
@@ -49,7 +49,7 @@ def create_upper():
         """
         return flask.Response(status=204)
 
-    @upper.route('/infos')
+    @app.route('/infos')
     def infos():
         """
         Get informations about the upper service, like
@@ -57,12 +57,12 @@ def create_upper():
         :return: "200 OK" with informations.
         :rtype: flask.Response
         """
-        infos = get_upper_informations()
+        infos = get_informations()
         res = flask.make_response(infos)
         res.status = 200
         return res
 
-    @upper.route('/event', methods=['POST'])
+    @app.route('/event', methods=['POST'])
     def event():
         """
         Transform a given message to uppercase.
@@ -99,13 +99,13 @@ def create_upper():
         res.status = 200
         return res
 
-    return upper
+    return app
 
 
 def main():
     """Start the Flask application."""
-    upper = create_upper()
-    upper.run(host='0.0.0.0', port=int(os.environ.get('UPPER_PORT', "5000")))
+    app = create_app()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', "5000")))
 
 
 if __name__ == "__main__":
