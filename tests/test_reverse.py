@@ -34,3 +34,4 @@ def test_reverse_event_failure_bad_json(reverse_client, bad_generic_payload):
     """
     rv = reverse_client.post('/event', json=bad_generic_payload)
     assert rv.status_code == 400
+    
