@@ -95,7 +95,7 @@ def create_app():
             res.status = 400
             return res
 
-        res = flask.make_response({'space_count': message.count(" ")})
+        res = flask.make_response({'message': message.count(" ")})
         res.status = 200
         return res
 
