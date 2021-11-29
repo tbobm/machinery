@@ -11,6 +11,11 @@ def test_create_service(client, valid_service):
     assert rv.status_code == 201
 
 
+def test_service_no_json(client):
+    rv = client.post('/s')
+
+    assert rv.status_code == 415
+
 def test_create_workflow(client, valid_workflow):
     rv = client.post('/w', json=valid_workflow)
 
