@@ -1,4 +1,4 @@
-"""Basic service to transform a text to uppercase."""
+"""Basic service to reverse a message."""
 import os
 
 import flask
@@ -6,14 +6,14 @@ import flask
 
 def get_informations():
     """
-    Get all upper service informations and return them 
-    formated into a dict.
-    :return: all informations about the upper service.
+    Get all reverse service informations and return 
+    them formated into a dict.
+    :return: all informations about the reverse service.
     :rtype: dict
     """
     informations = {
-        "name": "upper",
-        "address": "http://upper.local:5000/",
+        "name": "reverse",
+        "address": "http://reverse.local:5000/",
         "inputs": [
             {
                 "name": "message",
@@ -25,7 +25,7 @@ def get_informations():
             {
                 "name": "message",
                 "type": "string",
-                "description": "The transformed text, in uppercase"
+                "description": "The reversed text"
             }
         ]
     }
@@ -34,7 +34,7 @@ def get_informations():
 
 def create_app():
     """
-    Configure a Flask instance for upper service.
+    Configure a Flask instance for reverse service.
     :return: a configured flask instance.
     :rtype: flask.Flask()
     """
@@ -52,7 +52,7 @@ def create_app():
     @app.route('/infos')
     def infos():
         """
-        Get informations about the upper service, like
+        Get informations about the reverse service, like
         name, expected inputs & outputs, url, etc.
         :return: "200 OK" with informations.
         :rtype: flask.Response
@@ -65,7 +65,7 @@ def create_app():
     @app.route('/event', methods=['POST'])
     def event():
         """
-        Transform a given message to uppercase.
+        Reverse the given message.
         :return: "200 OK" with tranformed message, or 
         "4xx" appropriate code with error message
         :rtype: flask.Response
@@ -94,8 +94,8 @@ def create_app():
             })
             res.status = 400
             return res
-        
-        res = flask.make_response({'message': message.upper()})
+
+        res = flask.make_response({'message': message[::-1]})
         res.status = 200
         return res
 
