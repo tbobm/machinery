@@ -75,7 +75,9 @@ jobs:
       - name: Run the API & test
         env:
           MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
-        run: bash run_app & docker run -v "$(pwd)"/postman:/etc/postman --network host -t postman/newman run /etc/postman/Machinery.postman_collection.json -e /etc/postman/Machinery\ -\ Local.postman_env.json 
+        run: | 
+          bash run_app & 
+          docker run -v "$(pwd)"/postman:/etc/postman --network host -t postman/newman run /etc/postman/Machinery.postman_collection.json -e /etc/postman/Machinery\ -\ Local.postman_env.json 
 
   linter:
     runs-on: ubuntu-latest
