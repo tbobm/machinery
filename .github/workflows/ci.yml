@@ -17,7 +17,7 @@ jobs:
   unittests:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/release'
-    name: "Run tests"
+    name: "Run unit tests"
     services:
       mongodb:
         image: "mongo:4.4"
@@ -46,7 +46,7 @@ jobs:
   functional_test:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/release'
-    name: "Run tests"
+    name: "Run functional tests"
     services:
       mongodb:
         image: "mongo:4.4"
