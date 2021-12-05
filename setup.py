@@ -39,4 +39,9 @@ setup(
     url='https://github.com/tbobm/machinery',
     version=machinery.__version__,
     zip_safe=False,
+    entry_points = {
+        "console_scripts": [
+            "machinery-cli=machinery.commands:setup_db",
+        ]
+    }
 )
