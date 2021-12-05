@@ -5,6 +5,7 @@ import typing
 from bson.objectid import ObjectId
 from marshmallow import ValidationError
 import pymongo
+import pymongo.errors
 
 from machinery.entity import WorkflowSchema, ServiceSchema
 
@@ -34,8 +35,18 @@ def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.T
         # TODO: give more detail regarding the failing services
         return False, {"message": "not all services exist"}
     cursor = mongo_client.get_default_database()
-    inserted = cursor[MachineryCollections.WORKFLOW.value].insert_one(result)
-    return inserted.acknowledged, {'workflow_id': f"{inserted.inserted_id}"}
+    try:
+        result = cursor[MachineryCollections.WORKFLOW.value].insert_one(result)
+        workflow_id = result.inserted_id
+    except pymongo.errors.DuplicateKeyError:
+        result.pop('_id')  # do not edit the `_id` field
+        result = cursor[MachineryCollections.WORKFLOW.value].find_one_and_update(
+            {'name': result['name']},
+            {'$set': result},
+            return_document=pymongo.ReturnDocument.AFTER,
+        )
+        workflow_id = result['_id']
+    return True, {'workflow_id': f"{workflow_id}"}
 
 
 def services_exists(services: typing.List[typing.Union[str, ObjectId]],
