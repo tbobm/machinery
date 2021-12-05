@@ -94,5 +94,15 @@ def store_service(payload: dict, mongo_client: pymongo.MongoClient) -> typing.Tu
     except ValidationError as err:
         return False, err.messages
     cursor = mongo_client.get_default_database()
-    inserted = cursor[MachineryCollections.SERVICE.value].insert_one(result)
-    return inserted.acknowledged, {'service_id': f"{inserted.inserted_id}"}
+    try:
+        result = cursor[MachineryCollections.SERVICE.value].insert_one(result)
+        service_id = result.inserted_id
+    except pymongo.errors.DuplicateKeyError:
+        result.pop('_id')  # do not edit the `_id` field
+        result = cursor[MachineryCollections.SERVICE.value].find_one_and_update(
+            {'name': result['name']},
+            {'$set': result},
+            return_document=pymongo.ReturnDocument.AFTER,
+        )
+        service_id = result['_id']
+    return True, {'service_id': f"{service_id}"}
