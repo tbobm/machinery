@@ -40,3 +40,20 @@ def register_workflow():
     if created:
         return infos, 201
     return infos, 409
+
+
+@common.route('/e/<str:workflow_id>', methods=['POST'])
+def process_event(workflow_id: str):
+    """Process the event in JSON payload using `workflow_id`."""
+    if not request.is_json:
+        return {"message": "json is expected"}, 415
+
+    payload = request.get_json()
+    if payload is None:
+        return {"message": "payload can not be empty"}, 400
+
+    mongo = current_app.config['db']
+    created, infos = store_service(payload, mongo.cx)
+    if created:
+        return infos, 201
+    return infos, 409

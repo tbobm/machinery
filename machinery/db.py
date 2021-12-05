@@ -49,6 +49,16 @@ def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.T
     return True, {'workflow_id': f"{workflow_id}"}
 
 
+def fetch_workflow_config(workflow_id: str, mongo_client: pymongo.MongoClient):
+    """Validate and store a valid Workflow `payload`.
+
+    First return parameter defined if the Workflow has been registered.
+    Second return parameter is an informative dictionary.
+    """
+    cursor = mongo_client.get_default_database()
+    inserted = cursor[MachineryCollections.WORKFLOW.value].find_one({"workflow_id"})
+
+
 def services_exists(services: typing.List[typing.Union[str, ObjectId]],
                     mongo_client, qualifier='name') -> bool:
     """Lookup a list of `services` in the Database.
