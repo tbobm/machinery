@@ -49,14 +49,30 @@ def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.T
     return True, {'workflow_id': f"{workflow_id}"}
 
 
-def fetch_workflow_config(workflow_id: str, mongo_client: pymongo.MongoClient):
-    """Validate and store a valid Workflow `payload`.
-
-    First return parameter defined if the Workflow has been registered.
-    Second return parameter is an informative dictionary.
-    """
+def fetch_services(services: typing.List[str], mongo_client: pymongo.MongoClient):
+    """Return a dictionary of service definitions by name."""
     cursor = mongo_client.get_default_database()
-    inserted = cursor[MachineryCollections.WORKFLOW.value].find_one({"workflow_id"})
+    result = cursor[MachineryCollections.SERVICE.value].find(
+        {"name": {"$in": services}}
+    )
+    definitions = {}
+    for element in result:
+        definitions[element['name']] = element
+    return definitions
+
+
+def fetch_workflow_config(
+        workflow_id: str,
+        mongo_client: pymongo.MongoClient
+        ) -> typing.Tuple[dict[str, typing.Any], dict[str, typing.Any]]:
+    """Fetch the `workflow_id` Workflow and return the associated Service map."""
+    cursor = mongo_client.get_default_database()
+    _id = ObjectId(workflow_id)
+    result = cursor[MachineryCollections.WORKFLOW.value].find_one({"_id": ObjectId(workflow_id)})
+    if result is None:
+        raise ValueError(f'could not find Workflow with workflow_id={_id}')
+    service_definition = fetch_services(result['services'], mongo_client)
+    return result, service_definition
 
 
 def services_exists(services: typing.List[typing.Union[str, ObjectId]],
