@@ -38,6 +38,10 @@ jobs:
         run: |
           pip install -r requirements_dev.txt
           pip install -e .
+      - name: Bootstrap the database
+        env:
+          MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
+        run: machinery-cli
       - name: Run the unit tests
         env:
           MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
@@ -69,6 +73,10 @@ jobs:
         run: |
           pip install -r requirements_dev.txt
           pip install -e .
+      - name: Bootstrap the database
+        env:
+          MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
+        run: machinery-cli
       - name: Pull newman image
         run: docker pull postman/newman
       
