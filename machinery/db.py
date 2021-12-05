@@ -51,7 +51,7 @@ def services_exists(services: typing.List[typing.Union[str, ObjectId]],
         'name': str,
         'service_id': ObjectId,
     }
-    if qualifier not in _mapping.keys():
+    if qualifier not in _mapping:
         raise ValueError(f'service lookup is available to {",".join(_mapping.keys())}')
     database = mongo_client.get_default_database()
     to_find = set(services)  # a service can be called multiple times
