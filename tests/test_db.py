@@ -74,3 +74,31 @@ def test_qualifier_restricted(valid_service, db_client):
     """Ensure exception is triggered on unknown qualifier."""
     with pytest.raises(ValueError):
         db.services_exists([valid_service["name"]], db_client, qualifier='unknown')
+
+
+def test_fetch_workflow_config(valid_workflow, valid_service, db_client):
+    """Fetch a complete workflow definition with its service mapping."""
+    workflow = {
+        **valid_workflow,
+        **{
+            'name': 'workflow-config',
+            'services': ['mock-service'],
+        },
+    }
+
+    service = {
+        **valid_service,
+        **{'name': 'mock-service'},
+    }
+    _, workflow_data = db.store_workflow(workflow, db_client)
+    _, _ = db.store_service(service, db_client)
+
+    config, service_definition = db.fetch_workflow_config(workflow_data['workflow_id'], db_client)
+    assert config['name'] == workflow['name']
+    assert 'mock-service' in service_definition
+
+
+def test_fetch_unknown_workflow(db_client):
+    """Workflow does not exist."""
+    with pytest.raises(ValueError):
+        _, _ = db.fetch_workflow_config('aaaaaaaaaaaaaaaaaaaaaaaa', db_client)
