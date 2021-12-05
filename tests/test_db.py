@@ -90,8 +90,8 @@ def test_fetch_workflow_config(valid_workflow, valid_service, db_client):
         **valid_service,
         **{'name': 'mock-service'},
     }
-    _, workflow_data = db.store_workflow(workflow, db_client)
     _, _ = db.store_service(service, db_client)
+    _, workflow_data = db.store_workflow(workflow, db_client)
 
     config, service_definition = db.fetch_workflow_config(workflow_data['workflow_id'], db_client)
     assert config['name'] == workflow['name']
