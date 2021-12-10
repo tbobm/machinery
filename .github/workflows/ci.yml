@@ -86,6 +86,7 @@ jobs:
         run: | 
           bash run_app & 
           PORT=5001 python run examples/services/upper.py &
+          echo "127.0.0.1 upper.local" | sudo tee -a /etc/hosts
           docker run -v "$(pwd)"/postman:/etc/postman --network host -t postman/newman run /etc/postman/Machinery.postman_collection.json -e /etc/postman/Machinery\ -\ Local.postman_env.json 
 
   linter:
