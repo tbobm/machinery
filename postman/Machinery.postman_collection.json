@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Create a Service",
+			"name": "Create the upper Service",
 			"event": [
 				{
 					"listen": "test",
@@ -76,6 +76,8 @@
 							"",
 							"pm.test('Response contains a workflow_id', function () {",
 							"    pm.expect(tv4.validate(pm.response.json(), serviceResponse)).to.be.true",
+							"    postman.setGlobalVariable(\"workflow_id\", pm.response.json()['workflow_id'])",
+							"",
 							"});"
 						],
 						"type": "text/javascript"
@@ -157,6 +159,58 @@
 					]
 				},
 				"description": "Upon creating a Workflow, every referenced Service must be registered beforehand."
+			},
+			"response": []
+		},
+		{
+			"name": "Process an event using a workflow with Upper service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var eventResponse = {",
+							"    \"message\": {",
+							"        \"type\": \"string\"",
+							"    }",
+							"};",
+							"",
+							"",
+							"pm.test('Response contains the message in uppercase', function () {",
+							"    pm.expect(tv4.validate(pm.response.json(), eventResponse)).to.be.true",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"The Sun will soon rise again !\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{APP_URL}}/e/{{workflow_id}}",
+					"protocol": "http",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"e",
+						"{{workflow_id}}"
+					]
+				}
 			},
 			"response": []
 		}

@@ -7,7 +7,7 @@ import machinery
 with open('README.md', encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
-requirements = ['flask', 'marshmallow', 'pymongo', 'flask-pymongo']
+requirements = ['flask', 'marshmallow', 'pymongo', 'flask-pymongo', 'requests']
 
 test_requirements = ['pytest>=3', ]
 
