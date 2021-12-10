@@ -50,7 +50,35 @@ def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.T
 
 
 def fetch_services(services: typing.List[str], mongo_client: pymongo.MongoClient):
-    """Return a dictionary of service definitions by name."""
+    """Return a dictionary of service definitions by name.
+
+    Service definition looks like the following:
+
+    .. code-block ::python
+
+        {
+            "upper": {
+                {
+                    "name": "upper",
+                    "address": "http://upper.local:5000/",
+                    "inputs": [
+                        {
+                            "name": "message",
+                            "type": "string",
+                            "description": "short"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "message",
+                            "type": "string",
+                            "description": "short"
+                        }
+                    ]
+                }
+            }
+        }
+    """
     cursor = mongo_client.get_default_database()
     result = cursor[MachineryCollections.SERVICE.value].find(
         {"name": {"$in": services}}

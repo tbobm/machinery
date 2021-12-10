@@ -2,6 +2,7 @@
 from flask import request, current_app, Blueprint
 
 from machinery.db import store_service, store_workflow, fetch_workflow_config
+from machinery.processing import process_event
 
 common = Blueprint('api', __name__)
 
@@ -42,7 +43,7 @@ def register_workflow():
 
 
 @common.route('/e/<string:workflow_id>', methods=['POST'])
-def process_event(workflow_id: str):
+def synchronous_event(workflow_id: str):
     """Process the event in JSON payload using `workflow_id`."""
     if not request.is_json:
         return {"message": "json is expected"}, 415
@@ -52,5 +53,6 @@ def process_event(workflow_id: str):
         return {"message": "payload can not be empty"}, 400
 
     mongo = current_app.config['db']
-    _, _ = fetch_workflow_config(workflow_id, mongo.cx)
-    return {"message": "found configuration"}, 200
+    workflow, service_definitions = fetch_workflow_config(workflow_id, mongo.cx)
+    result = process_event(payload, workflow, service_definitions)
+    return result, 201
