@@ -36,7 +36,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"upper\",\n    \"address\": \"http://upper.local:5000/\",\n    \"inputs\": [\n        {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to transform\"\n        }\n        ],\n        \"outputs\": [\n        {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to transform\"\n       }\n    ]\n}\n",
+					"raw": "{\n    \"name\": \"upper\",\n    \"address\": \"http://{{UPPER_URL}}\",\n    \"inputs\": [\n        {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to transform\"\n        }\n        ],\n        \"outputs\": [\n        {\n            \"name\": \"message\",\n            \"type\": \"string\",\n            \"description\": \"The text to transform\"\n       }\n    ]\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -6,6 +6,11 @@
 			"key": "APP_URL",
 			"value": "localhost:5000",
 			"enabled": true
+		},
+		{
+			"key": "UPPER_URL",
+			"value": "localhost:5001/event",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
