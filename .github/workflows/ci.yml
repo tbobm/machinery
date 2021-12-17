@@ -85,7 +85,7 @@ jobs:
           MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
         run: | 
           bash run_app & 
-          PORT=5001 python run examples/services/upper.py &
+          bash examples/run_upper &
           docker run -v "$(pwd)"/postman:/etc/postman --network host \
               --add-host upper.local:127.0.0.1 \
               -t postman/newman run /etc/postman/Machinery.postman_collection.json \
