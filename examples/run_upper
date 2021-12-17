@@ -1,6 +1,6 @@
 #!/bin/sh
 export FLASK_ENV=development
 export FLASK_DEBUG=1
-export FLASK_APP=services.upper:create_app
+export FLASK_APP=examples.services.upper:create_app
 
 flask run --host=0.0.0.0 --port=5001
