@@ -4,9 +4,9 @@ import os
 import pymongo
 import pytest
 from machinery.api import create_app
-from examples.services.upper import create_app as create_upper
-from examples.services.reverse import create_app as create_reverse
-from examples.services.space_counter import create_app as create_space_counter
+from examples.services.upper.app import create_app as create_upper
+from examples.services.reverse.app import create_app as create_reverse
+from examples.services.space_counter.app import create_app as create_space_counter
 
 
 @pytest.fixture
