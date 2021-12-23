@@ -1,0 +1,21 @@
+---
+version: "3"
+
+services:
+  database:
+    container_name: machinery_db
+    image: mongo:5
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=machinery
+
+  api:
+    container_name: machinery_api
+    build: .
+    depends_on:
+      - database
+    environment:
+      - MONGO_URI=mongodb://user:password@database/machinery?authSource=admin
+    ports:
+      - 5000:5000
