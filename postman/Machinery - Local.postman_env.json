@@ -8,8 +8,18 @@
 			"enabled": true
 		},
 		{
-			"key": "UPPER_URL",
+			"key": "REVERSE_URL",
 			"value": "localhost:5001/event",
+			"enabled": false 
+		},
+		{
+			"key": "SPACE_URL",
+			"value": "localhost:5002/event",
+			"enabled": false
+		},
+		{
+			"key": "UPPER_URL",
+			"value": "localhost:5003/event",
 			"enabled": true
 		}
 	],
