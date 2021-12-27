@@ -60,9 +60,10 @@ jobs:
       - name: Launch the stack
         run: docker-compose -f docker-compose.yml -f services.yml up -d 
       - name: Run functional test
-        run : docker run -v "$(pwd)"/postman:/etc/postman --network host \
-              -t postman/newman run /etc/postman/Machinery.postman_collection.json \
-              -e /etc/postman/Machinery\ -\ Local.postman_env.json
+        run : |
+          docker run -v "$(pwd)"/postman:/etc/postman --network host \
+            -t postman/newman run /etc/postman/Machinery.postman_collection.json \
+            -e /etc/postman/Machinery\ -\ Local.postman_env.json
 
   linter:
     runs-on: ubuntu-latest
