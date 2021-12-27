@@ -57,11 +57,10 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Pull newman image
         run: docker pull postman/newman
-      - name: Launch the stack
-        run: docker-compose -f docker-compose.yml -f services.yml up -d 
-      - name: Run functional test
-        run : |
-          docker run -v "$(pwd)"/postman:/etc/postman --network host \
+      - name: Launch the stack and tests
+        run: |
+          docker-compose -f docker-compose.yml -f services.yml up -d \
+          && docker run -v "$(pwd)"/postman:/etc/postman --network host \
             -t postman/newman run /etc/postman/Machinery.postman_collection.json \
             -e /etc/postman/Machinery\ -\ Local.postman_env.json
 
