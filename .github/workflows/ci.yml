@@ -51,43 +51,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/release'
     name: "Run functional tests"
-    services:
-      mongodb:
-        image: "mongo:4.4"
-        env:
-          MONGO_INITDB_DATABASE: machinery
-          MONGO_INITDB_ROOT_USERNAME: user
-          MONGO_INITDB_ROOT_PASSWORD: password
-        ports:
-          - 27017:27017
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-          architecture: x64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Install machinery package
-        run: |
-          pip install -r requirements_dev.txt
-          pip install -e .
-      - name: Bootstrap the database
-        env:
-          MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
-        run: machinery-cli
       - name: Pull newman image
         run: docker pull postman/newman
-      
-      - name: Run the API & test
-        env:
-          MONGO_URI: "mongodb://user:password@localhost/machinery?authSource=admin"
-        run: | 
-          bash run_app & 
-          bash examples/run_upper &
-          docker run -v "$(pwd)"/postman:/etc/postman --network host \
-              --add-host upper.local:127.0.0.1 \
+      - name: Launch the stack
+        run: docker-compose -f docker-compose.yml -f services.yml up -d 
+      - name: Run functional test
+        run : docker run -v "$(pwd)"/postman:/etc/postman --network host \
               -t postman/newman run /etc/postman/Machinery.postman_collection.json \
               -e /etc/postman/Machinery\ -\ Local.postman_env.json
 
