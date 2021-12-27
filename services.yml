@@ -1,0 +1,22 @@
+---
+version: "3"
+
+services:
+  reverse:
+    container_name: reverse_service
+    build: ./examples/services/reverse
+    ports:
+      - 5001:5000
+
+  space_counter:
+    container_name: space_counter_service
+    build: ./examples/services/space_counter
+    ports:
+      - 5002:5000
+
+  upper:
+    container_name: upper_service
+    build: ./examples/services/upper
+    ports:
+      - 5003:5000
+    
