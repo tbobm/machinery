@@ -64,7 +64,7 @@ jobs:
             ${{ runner.os }}-single-buildx
 
       - name: Build the stack
-        run: docker-compose -f docker-compose.yml -f services.yml 
+        run: docker-compose -f docker-compose.yml -f services.yml build
       - name: Launch the stack
         run: docker-compose -f docker-compose.yml -f services.yml up -d && sleep 15
       - name: Run tests
@@ -72,14 +72,6 @@ jobs:
           docker run -v "$(pwd)"/postman:/etc/postman --network host \
             -t postman/newman run /etc/postman/Machinery.postman_collection.json \
             -e /etc/postman/Machinery\ -\ Local.postman_env.json
-
-        # As there is not a proper way to automatically update the cache
-        # we have to do it manually.
-        # see https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   linter:
     runs-on: ubuntu-latest
