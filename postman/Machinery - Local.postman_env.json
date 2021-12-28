@@ -9,17 +9,17 @@
 		},
 		{
 			"key": "REVERSE_URL",
-			"value": "localhost:5001/event",
+			"value": "reverse.local:5000",
 			"enabled": false 
 		},
 		{
 			"key": "SPACE_URL",
-			"value": "localhost:5002/event",
+			"value": "space_counter.local:5000",
 			"enabled": false
 		},
 		{
 			"key": "UPPER_URL",
-			"value": "localhost:5003/event",
+			"value": "upper.local:5000",
 			"enabled": true
 		}
 	],
