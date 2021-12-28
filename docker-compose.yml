@@ -17,5 +17,11 @@ services:
       - database
     environment:
       - MONGO_URI=mongodb://user:password@database/machinery?authSource=admin
+    healthcheck:
+      test: ["CMD-SHELL", "curl -X POST http://localhost:5000/s || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     ports:
       - 5000:5000
