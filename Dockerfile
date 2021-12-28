@@ -15,4 +15,4 @@ COPY . .
 RUN pip install -e . 
 
 ENTRYPOINT [ "sh" ]
-CMD [ "/app/machinery-entrypoint.sh" ]
+CMD [ "/app/entrypoint.sh" ]
