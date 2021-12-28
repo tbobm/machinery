@@ -2,21 +2,35 @@
 version: "3"
 
 services:
-  reverse:
+  reverse.local:
     container_name: reverse_service
     build: ./examples/services/reverse
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail localhost:5000/infos || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - 5001:5000
 
-  space_counter:
+  space_counter.local:
     container_name: space_counter_service
     build: ./examples/services/space_counter
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail localhost:5000/infos || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - 5002:5000
 
-  upper:
+  upper.local:
     container_name: upper_service
     build: ./examples/services/upper
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail localhost:5000/infos || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - 5003:5000
-    
