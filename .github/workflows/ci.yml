@@ -65,24 +65,13 @@ jobs:
 
       - name: Build the stack
         run: docker-compose -f docker-compose.yml -f services.yml 
-        with:
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
       - name: Launch the stack
         run: docker-compose -f docker-compose.yml -f services.yml up -d && sleep 15
-        with:
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
       - name: Run tests
         run: |
           docker run -v "$(pwd)"/postman:/etc/postman --network host \
             -t postman/newman run /etc/postman/Machinery.postman_collection.json \
             -e /etc/postman/Machinery\ -\ Local.postman_env.json
-        with:
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
         # As there is not a proper way to automatically update the cache
         # we have to do it manually.
