@@ -54,17 +54,43 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Pull newman image
-        run: docker pull postman/newman
+        
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-single-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-single-buildx
+
       - name: Build the stack
-        run: docker-compose -f docker-compose.yml -f services.yml build
+        run: docker-compose -f docker-compose.yml -f services.yml 
+        with:
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
       - name: Launch the stack
         run: docker-compose -f docker-compose.yml -f services.yml up -d && sleep 15
+        with:
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
       - name: Run tests
         run: |
           docker run -v "$(pwd)"/postman:/etc/postman --network host \
             -t postman/newman run /etc/postman/Machinery.postman_collection.json \
             -e /etc/postman/Machinery\ -\ Local.postman_env.json
+        with:
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+        # As there is not a proper way to automatically update the cache
+        # we have to do it manually.
+        # see https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   linter:
     runs-on: ubuntu-latest
