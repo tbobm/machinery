@@ -5,10 +5,10 @@ import requests
 def process_event(payload, workflow, service_definitions: dict):
     """Call each service for the Event.
 
-    event structure:
-    .. code-block ::python
+    .. highlight:: python
+    .. code-block:: python
 
-        {
+        event = {
             "inputs": {
                 "message": "sample test"
             },
@@ -17,7 +17,7 @@ def process_event(payload, workflow, service_definitions: dict):
             }
         }
 
-    Return only the `outputs` of the event.
+    Return only the value of the `.outputs` key of the event.
     """
     services = workflow.get('services')
     event = {

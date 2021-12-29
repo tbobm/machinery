@@ -54,7 +54,8 @@ def fetch_services(services: typing.List[str], mongo_client: pymongo.MongoClient
 
     Service definition looks like the following:
 
-    .. code-block ::python
+    .. highlight:: python
+    .. code-block:: python
 
         {
             "upper": {
