@@ -20,10 +20,13 @@ class MachineryCollections(enum.Enum):
 
 
 def store_workflow(payload: dict, mongo_client: pymongo.MongoClient) -> typing.Tuple[bool, dict]:
-    """Validate and store a valid Workflow `payload`.
+    """Validate and store the ``payload`` using :class:`machinery.entity.WorkflowSchema`.
 
-    First return parameter defined if the Workflow has been registered.
-    Second return parameter is an informative dictionary.
+    - First return parameter defined if the Workflow has been registered.
+    - Second return parameter is an informative dictionary.
+
+    :return: wether the object been upserted or not and the corresponding workflow_id
+    :rtype: tuple(bool, dict)
     """
     schema = WorkflowSchema()
     try:
