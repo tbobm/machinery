@@ -99,7 +99,7 @@ In a configured environment, run the following command:
 $ pylint machinery
 ```
 
-### Functional tests (WIP)
+### Functional tests
 
 This API is tested using Postman/Newman. ([newman: Getting Started][newman])
 
