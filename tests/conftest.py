@@ -37,7 +37,7 @@ def valid_workflow():
                 "description": "The processed text"
             }
         ],
-        "operations": { }
+        "operations": [ ]
     }
 
 

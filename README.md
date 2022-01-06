@@ -239,7 +239,15 @@ input:
             "description": "The number of spaces"
         }
     ],
-    "operations": [ ]
+    "operations": [
+        {
+            "type": "copy",
+            "source": "message",
+            "dest": "original",
+            "apply": "before",
+            "service": "0"
+        }
+    ]
 }
 ```
 
@@ -248,6 +256,7 @@ input:
 - `services`: The Services to be called, in order
 - `inputs`: The inputs of this Workflow
 - `outputs`: The outputs of this workflow
+- `operations`: A list of operations that modifies the event data between service calls
 
 output: TBD
 (workflow-id, ack date)
